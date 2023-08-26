@@ -1,4 +1,5 @@
 const express = require('express');
+const connection = require("./Config/db")
 const userRouter = require('./Routers/userRouter');
 const cors = require('cors')
 const app = express();
@@ -13,6 +14,12 @@ app.use(cors({
 app.use('/api/user', userRouter)
 
 
-app.listen(port, ()=>{
-    console.log(`Server is running on ${port}`);
+app.listen(port, async()=>{
+    try{
+        await connection();
+        console.log(`Server is running on ${port}`);
+    }
+    catch(err){
+        console.log("Error listing", err);
+    }
 })
